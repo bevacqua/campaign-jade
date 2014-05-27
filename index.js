@@ -1,9 +1,15 @@
 'use strict';
 
+var _ = require('lodash');
 var jade = require('jade');
 var path = require('path');
 var fs = require('fs');
 var cache = {};
+var production = process.env.NODE_ENV === 'production';
+var options = {
+  compileDebug: !production,
+  pretty: !production
+};
 
 function read (file, done) {
   if (file in cache) {
@@ -14,8 +20,7 @@ function read (file, done) {
     if (err) {
       done(err);
     } else {
-      jade.parse(template);
-      cache[file] = template;
+      cache[file] = jade.compile(template, options);
       next();
     }
   });
@@ -28,11 +33,11 @@ function read (file, done) {
 module.exports = {
   defaultLayout: path.join(__dirname, 'layout.jade'),
   render: function (file, model, done) {
-    read(file, function (err, template) {
+    read(file, function (err, fn) {
       if (err) {
         done(err);
       } else {
-        done(null, jade.render(template, model));
+        done(null, fn(_.assign({}, options, model));
       }
     });
   },
