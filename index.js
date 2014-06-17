@@ -16,6 +16,7 @@ function read (file, done) {
   if (!rjade.test(file)) {
     file += '.jade';
   }
+
   if (file in cache) {
     next(); return;
   }
@@ -41,7 +42,7 @@ module.exports = {
       if (err) {
         done(err);
       } else {
-        done(null, fn(_.assign({}, options, model));
+        done(null, fn(_.assign({}, options, model)));
       }
     });
   },
