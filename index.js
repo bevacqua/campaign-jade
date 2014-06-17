@@ -10,8 +10,12 @@ var options = {
   compileDebug: !production,
   pretty: !production
 };
+var rjade = /\.jade$/i;
 
 function read (file, done) {
+  if (!rjade.test(file)) {
+    file += '.jade';
+  }
   if (file in cache) {
     next(); return;
   }
