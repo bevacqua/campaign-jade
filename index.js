@@ -5,11 +5,6 @@ var jade = require('jade');
 var path = require('path');
 var fs = require('fs');
 var cache = {};
-var production = process.env.NODE_ENV === 'production';
-var options = {
-  compileDebug: !production,
-  pretty: !production
-};
 var rjade = /\.jade$/i;
 
 function read (file, done) {
@@ -25,7 +20,7 @@ function read (file, done) {
     if (err) {
       done(err);
     } else {
-      cache[file] = jade.compile(template, options);
+      cache[file] = jade.compile(template);
       next();
     }
   });
