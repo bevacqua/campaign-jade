@@ -37,7 +37,7 @@ module.exports = {
       if (err) {
         done(err);
       } else {
-        done(null, fn(_.assign({}, options, model)));
+        done(null, fn(model));
       }
     });
   },
